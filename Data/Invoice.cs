@@ -19,7 +19,7 @@ namespace ONS_Hardware_Web_Application.Data
         public Employee Employee { get; set; }
         public string EmployeesId { get; set; }
         [ForeignKey("CustomerId")]
-        public int Customer { get; set; }
+        public Customer Customer { get; set; }
         public int CustomerId { get; set; }
         [ForeignKey("ProductId")]
         public Product Product { get; set; }

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static ONS_Hardware_Web_Application.Models.DetailsSupplierViewModel;
+using static ONS_Hardware_Web_Application.Models.SupplierViewModel;
 
 namespace ONS_Hardware_Web_Application.Mappings
 {
@@ -13,8 +13,7 @@ namespace ONS_Hardware_Web_Application.Mappings
     {
         public Maps()
         {
-            CreateMap<Supplier, DetailsSupplierViewModel>().ReverseMap(); //Reverse Map Is data flowing in both directions
-            CreateMap<Supplier, CreateSupplierViewModel>().ReverseMap();
+            CreateMap<Supplier, SupplierViewModel>().ReverseMap(); //Reverse Map Is data flowing in both directions
             CreateMap<Invoice, InvoiceViewModel>().ReverseMap();
             CreateMap<Customer, CustomerViewModel>().ReverseMap();
             CreateMap<Purchase, PurchaseViewModel>().ReverseMap();

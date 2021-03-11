@@ -268,9 +268,6 @@ namespace ONS_Hardware_Web_Application.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Customer")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -296,6 +293,8 @@ namespace ONS_Hardware_Web_Application.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("EmployeeId");
 
@@ -502,6 +501,12 @@ namespace ONS_Hardware_Web_Application.Data.Migrations
 
             modelBuilder.Entity("ONS_Hardware_Web_Application.Data.Invoice", b =>
                 {
+                    b.HasOne("ONS_Hardware_Web_Application.Data.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ONS_Hardware_Web_Application.Data.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");

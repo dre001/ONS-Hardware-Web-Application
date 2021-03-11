@@ -40,6 +40,12 @@ namespace ONS_Hardware_Web_Application.Repository
             return Product;
         }
 
+        public bool isExists(int Id)
+        {
+            var exists = _db.Products.Any(q => q.Id == Id);
+            return exists;
+        }
+
         public bool Save()
         {
             var changes = _db.SaveChanges();

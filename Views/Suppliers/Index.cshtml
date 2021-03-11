@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ONS_Hardware_Web_Application.Models.SupplierViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Supplier Information</h1>
+<hr />
+<p>
+    <a asp-action="Create" class=" btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i>Create New</a>
+</p>
+<table id="tblData" class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address_1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address_2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParishId)
+            </th>
+            <th> Actions </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address_1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address_2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParishId)
+            </td>
+            <td>
+               
+                <a asp-action="Edit" class=" btn btn-warning"asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                <a asp-action="Details" class=" btn btn-primary"asp-route-id="@item.Id"><i class="fa fa-info-circle" aria-hidden="true"></i>Details</a>
+                <a asp-action="Delete" class=" btn btn-danger"asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $('#tblData').DataTable();
+    });
+</script>
+ }

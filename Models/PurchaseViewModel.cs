@@ -14,7 +14,8 @@ namespace ONS_Hardware_Web_Application.Models
         [Required]
         public Decimal Cost { get; set; }
         [Required]
-        public DateTime PurchaseDate { get; set; }
+        [Display(Name = "Purchase Date")]
+        public DateTime? PurchaseDate { get; set; }
        
         public ProductViewModel Product { get; set; }
         public int ProductId { get; set; }

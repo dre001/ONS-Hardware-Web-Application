@@ -31,13 +31,20 @@ namespace ONS_Hardware_Web_Application.Repository
 
         public ICollection<Parish> FindAll()
         {
-            throw new NotImplementedException();
+            return _db.Parishes.ToList();
+            
         }
 
         public Parish FindById(int Id)
         {
             var Parish = _db.Parishes.Find(Id);
             return Parish;
+        }
+
+        public bool isExists(int Id)
+        {
+            var exists = _db.Parishes.Any(q => q.Id == Id);
+            return exists;
         }
 
         public bool Save()

@@ -41,6 +41,12 @@ namespace ONS_Hardware_Web_Application.Repository
             return Invoice;
         }
 
+        public bool isExists(int Id)
+        {
+            var exists = _db.Invoices.Any(q => q.Id == Id);
+            return exists;
+        }
+
         public bool Save()
         {
             var changes = _db.SaveChanges();
@@ -52,17 +58,6 @@ namespace ONS_Hardware_Web_Application.Repository
             _db.Invoices.Update(entity);
             //Save
             return Save();
-        }
-
-       
-        ICollection<Invoice> IRepositoryBase<Invoice>.FindAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        Invoice IRepositoryBase<Invoice>.FindById(int Id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

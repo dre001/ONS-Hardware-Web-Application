@@ -12,9 +12,13 @@ namespace ONS_Hardware_Web_Application.Models
         
         public int Id { get; set; }
         [Required]
-        public DateTime InvoiceDate { get; set; }
+
+        [Display(Name ="Invoice Date")] 
+        public DateTime? InvoiceDate { get; set; }
         public int Quantity { get; set; }
+        [Display(Name = "Unit Cost")]
         public Decimal UnitCost { get; set; }
+        [Display(Name = "Total Cost")]
         public Decimal TotalCost { get; set; }
         [Required]
         public EmployeeViewModel Employee { get; set; }
