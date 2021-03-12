@@ -33,6 +33,10 @@ namespace ONS_Hardware_Web_Application.Controllers
 
         }
 
+        // View For list of Parishes
+
+
+
         // GET: ParishesController/Details/5
         public ActionResult Details(int id)
         {

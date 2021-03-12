@@ -32,6 +32,9 @@ namespace ONS_Hardware_Web_Application.Repository
         public ICollection<Product> FindAll()
         {
             return _db.Products.ToList();
+             // Products = _db.Products.ToList();
+
+             //return view (Products);
         }
 
         public Product FindById(int Id)

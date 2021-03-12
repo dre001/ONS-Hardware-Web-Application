@@ -30,7 +30,7 @@ namespace ONS_Hardware_Web_Application.Models
         public ProductViewModel Product { get; set; }
         public int ProductId { get; set; }
 
-        public IEnumerable<SelectListItem> Employees { get; set; }
+        public IEnumerable<SelectListItem> Employees { get; set; } // Drop down list
         public IEnumerable<SelectListItem> Products { get; set; }
     }
 }

@@ -17,9 +17,9 @@ namespace ONS_Hardware_Web_Application.Models
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
         [Display(Name = "Unit Cost")]
-        [Required]
+      //  [Required]
         public decimal UniitCost { get; set; }
-        [Required]
+      //  [Required]
         public int Qantity { get; set; }
         [Display(Name = "Product Location")]
         public string ProductLocation { get; set; }

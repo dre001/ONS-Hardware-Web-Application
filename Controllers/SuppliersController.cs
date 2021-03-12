@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ONS_Hardware_Web_Application.Contracts;
 using ONS_Hardware_Web_Application.Data;
 using ONS_Hardware_Web_Application.Models;
@@ -18,14 +20,18 @@ namespace ONS_Hardware_Web_Application.Controllers
         private readonly ISupplierRepository _repo;
         private readonly IParishRepository _parishRepo;
         private readonly IMapper _mapper;
-
-        public SuppliersController(ISupplierRepository repo, IParishRepository parishRepo, IMapper mapper)
+        
+        private readonly UserManager<IdentityUser> _userManager;
+        public SuppliersController(ISupplierRepository repo, 
+            IParishRepository parishRepo, 
+            IMapper mapper, 
+            UserManager<IdentityUser> userManager)
         {
             _repo = repo;
             _parishRepo = parishRepo;
             _mapper = mapper;
-
-        }
+            _userManager = userManager; 
+    }
 
         // GET: SupplierController
         public ActionResult Index()
@@ -36,6 +42,14 @@ namespace ONS_Hardware_Web_Application.Controllers
            
         }
 
+
+        ////View for List of parishes
+        //public ActionResult ListParishes()
+        //{
+        //    var parishes = _userManager.GetUsersInRoleAsync("Parish").Result;
+        //    var model = _mapper.Map<List<ParishViewModel>>(parishes);
+        //    return View(model);
+        //}
         // GET: SupplierController/Details/5
         public ActionResult Details(int id)
         {
@@ -51,12 +65,13 @@ namespace ONS_Hardware_Web_Application.Controllers
         // GET: SupplierController/Create
         public ActionResult Create()
         {
-            //var parishes = _parishRepo.FindAll();
-            //var model = new SupplierViewModel
-            //{
-            //    Parish = 
-            //}
-            return View();
+            var parishes = _parishRepo.FindAll()
+                .Select(q => new SelectListItem { Text = q.Parishes, Value= q.Id.ToString() });
+            var model = new SupplierViewModel
+            { 
+                Parishes = parishes
+            };
+            return View(model);
         }
 
         // POST: SupplierController/Create

@@ -24,7 +24,5 @@ namespace ONS_Hardware_Web_Application.Models
         public ParishViewModel Parish { get; set; }
         public int ParishId { get; set; }
         public IEnumerable<SelectListItem> Parishes { get; set; } //Drop Down list for Parishes
-
-
      }
 }

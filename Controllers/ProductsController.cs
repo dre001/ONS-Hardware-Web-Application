@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ONS_Hardware_Web_Application.Contracts;
 using ONS_Hardware_Web_Application.Data;
 using ONS_Hardware_Web_Application.Models;
@@ -15,14 +17,17 @@ namespace ONS_Hardware_Web_Application.Controllers
     [Authorize]
     public class ProductsController : Controller
     {
+        private readonly ISupplierRepository _SupplierRepo;
         private readonly IProductRepository _repo;
         private readonly IMapper _mapper;
-
-        public ProductsController(IProductRepository repo, IMapper mapper)
+        private readonly UserManager<IdentityUser> _userManager;
+        public ProductsController(IProductRepository repo, ISupplierRepository SupplierRepo , IMapper mapper, UserManager<IdentityUser> userManager
+            )
         {
             _repo = repo;
             _mapper = mapper;
-
+            _userManager = userManager;
+            _SupplierRepo = SupplierRepo;
         }
 
         // GET: ProductsController
@@ -48,9 +53,19 @@ namespace ONS_Hardware_Web_Application.Controllers
         }
 
         // GET: ProductsController/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
         public ActionResult Create()
         {
-            return View();
+            var suppliers = _SupplierRepo.FindAll()
+                .Select(q => new SelectListItem { Text = q.CompanyName, Value = q.Id.ToString() });
+            var model = new ProductViewModel
+            {
+                Suppliers = suppliers
+            };
+            return View(model);
         }
 
         // POST: ProductsController/Create
