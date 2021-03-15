@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ONS_Hardware_Web_Application.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,17 @@ namespace ONS_Hardware_Web_Application
 {
     public static class SeedData
     {
-        public static void Seed (UserManager<IdentityUser> userManager,
+        public static void Seed (UserManager<Employee> userManager,
             RoleManager<IdentityRole> rolemanager)
             {
             SeedRoles(rolemanager);
             SeedUsers(userManager);
             }
-        private static void SeedUsers(UserManager<IdentityUser> userManager)
+        private static void SeedUsers(UserManager<Employee> userManager)
         {
-            if (userManager.FindByNameAsync("admin").Result == null)  // Chaecking if the is any user with the name admin
+            if (userManager.FindByNameAsync("admin@localhost.com").Result == null)  // Chaecking if the is any user with the name admin
             {
-                var user = new IdentityUser  //if nothing comes back (null)... we create an object called "IdentityUser"
+                var user = new Employee  //if nothing comes back (null)... we create an object called "Employee"       This Line is questionable within 
                 {
                     UserName = "admin@localhost.com",             //passing in the user name and Email
                     Email = "admin@localhost.com"

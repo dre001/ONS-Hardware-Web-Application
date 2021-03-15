@@ -48,7 +48,7 @@ namespace ONS_Hardware_Web_Application
             services.AddScoped<IParishRepository, ParishRepository>();
            
             
-            services.AddDefaultIdentity<IdentityUser>() //it was changed from "IdentityUser" to "Employee"
+            services.AddDefaultIdentity<Employee>() //it was changed from "Employee" to "Employee"
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
@@ -59,7 +59,7 @@ namespace ONS_Hardware_Web_Application
         public void Configure(
             IApplicationBuilder app, 
             IWebHostEnvironment env,
-            UserManager<IdentityUser> userManager,
+            UserManager<Employee> userManager,
             RoleManager<IdentityRole> rolemanager
             )
         {

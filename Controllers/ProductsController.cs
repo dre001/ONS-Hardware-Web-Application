@@ -20,8 +20,8 @@ namespace ONS_Hardware_Web_Application.Controllers
         private readonly ISupplierRepository _SupplierRepo;
         private readonly IProductRepository _repo;
         private readonly IMapper _mapper;
-        private readonly UserManager<IdentityUser> _userManager;
-        public ProductsController(IProductRepository repo, ISupplierRepository SupplierRepo , IMapper mapper, UserManager<IdentityUser> userManager
+        private readonly UserManager<Employee> _userManager;
+        public ProductsController(IProductRepository repo, ISupplierRepository SupplierRepo , IMapper mapper, UserManager<Employee> userManager
             )
         {
             _repo = repo;

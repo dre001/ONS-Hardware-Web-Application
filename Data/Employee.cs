@@ -8,6 +8,7 @@ namespace ONS_Hardware_Web_Application.Data
 {
     public class Employee : IdentityUser
     {
+        //public int Id { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

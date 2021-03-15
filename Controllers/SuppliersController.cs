@@ -21,11 +21,11 @@ namespace ONS_Hardware_Web_Application.Controllers
         private readonly IParishRepository _parishRepo;
         private readonly IMapper _mapper;
         
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Employee> _userManager;
         public SuppliersController(ISupplierRepository repo, 
             IParishRepository parishRepo, 
             IMapper mapper, 
-            UserManager<IdentityUser> userManager)
+            UserManager<Employee> userManager)
         {
             _repo = repo;
             _parishRepo = parishRepo;
@@ -98,7 +98,7 @@ namespace ONS_Hardware_Web_Application.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "Sorry, Something went wrong...");
                 return View();

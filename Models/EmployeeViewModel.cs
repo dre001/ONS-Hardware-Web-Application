@@ -9,11 +9,13 @@ namespace ONS_Hardware_Web_Application.Models
     public class EmployeeViewModel
     {
         [Required]
+        public string Id { get; set; }
+        [Required]
         public string Title { get; set; }
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
-        public string LastName { get; set; }
         [Display(Name = "Last Name")]
+        public string LastName { get; set; }
         public string Address_1 { get; set; }
         public string Address_2 { get; set; }
         [Display(Name = "Email Address")]
