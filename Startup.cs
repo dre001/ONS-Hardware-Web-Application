@@ -48,7 +48,7 @@ namespace ONS_Hardware_Web_Application
             services.AddScoped<IParishRepository, ParishRepository>();
            
             
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<IdentityUser>() //it was changed from "IdentityUser" to "Employee"
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
