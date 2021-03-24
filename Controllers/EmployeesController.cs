@@ -34,9 +34,18 @@ namespace ONS_Hardware_Web_Application.Controllers
         }
 
         // GET: EmployeeController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            //if (!_userManager.GetUsersInRoleAsync(id).IsFaulted)
+            //{
+            //    return NotFound();                                             //What NOT!!to do for the Employee<<
+            //}
+            //var employees = _userManager.GetUsersInRoleAsync(id);
+            //var model = _mapper.Map<List<EmployeeViewModel>>(employees);
+            //return View(model);
+            var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+            
+             return View(employee);
         }
 
         // GET: EmployeeController/Create
@@ -48,37 +57,87 @@ namespace ONS_Hardware_Web_Application.Controllers
         // POST: EmployeeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(EmployeeViewModel model)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+            //try
+            //{
+                //    if (!ModelState.IsValid)
+                //    {
+                //        return View(model);
+                //    }
+
+                //    var employee = _mapper.Map<Employee>(model);
+
+
+                //    var IsSuccess = _userManager.CreateAsync(employee);
+                //    if (!IsSuccess)
+                //    {
+                //        ModelState.AddModelError("", "Sorry, Something went wrong...");
+                //        return View(model);
+                //    }
+
+                //    return RedirectToAction(nameof(Index));
+                //}
+                //catch
+                //{
+                //    ModelState.AddModelError("", "Sorry, Something went wrong...");
+                //    return View();
+                //}
+                try
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: EmployeeController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+          
+           // var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+            return View(employee);
         }
 
         // POST: EmployeeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(EmployeeViewModel model, string id)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View (model);
+                }
+                var employee = _mapper.Map<Employee>(model);
+                var IsSuccess = _userManager.UpdateAsync(employee).Result;
+
+                //var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+                // var employee = _mapper.Map<EmployeeViewModel>(model);
+                //var IsSuccess = _mapper.Map<EmployeeViewModel>(_userManager.Update (employee));
+               //var IsSuccess = _mapper.Map<EmployeeViewModel>(_userManager.UpdateAsync(employee).Result);
+                //if (!IsSuccess)
+                {
+                    ModelState.AddModelError("", "Sorry, Something went wrong...");
+                    return View(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Sorry, Something went wrong...");
+                return View(model);
             }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         // GET: EmployeeController/Delete/5

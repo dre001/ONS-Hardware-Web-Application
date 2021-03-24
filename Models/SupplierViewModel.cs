@@ -23,6 +23,14 @@ namespace ONS_Hardware_Web_Application.Models
         public string EmailAddress { get; set; }
         public ParishViewModel Parish { get; set; }
         public int ParishId { get; set; }
+        public bool? Approved { get; set; } //last thing added
         public IEnumerable<SelectListItem> Parishes { get; set; } //Drop Down list for Parishes
      }
+    //public class DeliveryStatusViewModel
+    //{
+    //    public int TotalDelivery { get; set; }
+    //    public int PendingDelivery { get; set; }
+    //    public int NotDelivered { get; set; }
+        
+    //}
 }

@@ -36,10 +36,20 @@ namespace ONS_Hardware_Web_Application.Controllers
         // GET: SupplierController
         public ActionResult Index()
         {
+
             var suppliers = _repo.FindAll().ToList();
             var model = _mapper.Map<List<Supplier>, List<SupplierViewModel>>(suppliers);
+            //var SupplierModel = _mapper.Map<List<SupplierViewModel>>(suppliers);
+            //var model1 = new DeliveryStatusViewModel
             return View(model);
-           
+            //{
+            //    TotalDelivery = SupplierModel.Count,
+            //    PendingDelivery = SupplierModel.Count(q => q.Approved == null),
+            //    NotDelivered = SupplierModel.Count(q => q.Approved == false),
+            //    //suppliers = SupplierModel
+            //};
+            //return View(model);
+
         }
 
 
@@ -114,9 +124,19 @@ namespace ONS_Hardware_Web_Application.Controllers
             }
             var supplier = _repo.FindById(id);
             var model = _mapper.Map<SupplierViewModel>(supplier);
-            return View(model);
-        }
+        
 
+        var parishes = _parishRepo.FindAll()
+               .Select(q => new SelectListItem { Text = q.Parishes, Value = q.Id.ToString() });
+            model = new SupplierViewModel
+            {
+                Parishes = parishes
+        };
+            return View(model);
+
+           
+        }
+        
         // POST: SupplierController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]

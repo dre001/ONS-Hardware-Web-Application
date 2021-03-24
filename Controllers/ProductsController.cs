@@ -36,7 +36,7 @@ namespace ONS_Hardware_Web_Application.Controllers
             var product = _repo.FindAll().ToList();
             var model = _mapper.Map<List<Product>, List<ProductViewModel>>(product);
             return View(model);
-
+            
         }
 
         // GET: ProductsController/Details/5
@@ -108,6 +108,13 @@ namespace ONS_Hardware_Web_Application.Controllers
             }
             var product = _repo.FindById(id);
             var model = _mapper.Map<ProductViewModel>(product);
+
+            var suppliers = _SupplierRepo.FindAll()
+               .Select(q => new SelectListItem { Text = q.CompanyName, Value = q.Id.ToString() });
+             model = new ProductViewModel
+            {
+                Suppliers = suppliers
+            };
             return View(model);
 
         }

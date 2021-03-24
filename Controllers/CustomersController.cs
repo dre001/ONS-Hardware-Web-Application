@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ONS_Hardware_Web_Application.Contracts;
 using ONS_Hardware_Web_Application.Data;
 using ONS_Hardware_Web_Application.Models;
@@ -18,12 +19,15 @@ namespace ONS_Hardware_Web_Application.Controllers
 
         private readonly ICustomerRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IParishRepository _parishRepo;
 
-        public CustomersController(ICustomerRepository repo, IMapper mapper)
+        public CustomersController(ICustomerRepository repo,
+            IParishRepository parishRepo,
+            IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
-
+            _parishRepo = parishRepo;
         }
 
         // GET: CustomersController
@@ -50,7 +54,13 @@ namespace ONS_Hardware_Web_Application.Controllers
         // GET: CustomersController/Create
         public ActionResult Create()
         {
-            return View();
+            var parishes = _parishRepo.FindAll()
+                .Select(q => new SelectListItem { Text = q.Parishes, Value = q.Id.ToString() });
+            var model = new CustomerViewModel
+            {
+                Parishes = parishes
+            };
+            return View(model);
         }
 
         // POST: CustomersController/Create
@@ -93,7 +103,15 @@ namespace ONS_Hardware_Web_Application.Controllers
             }
             var customer = _repo.FindById(id);
             var model = _mapper.Map<CustomerViewModel>(customer);
+
+            var parishes = _parishRepo.FindAll()
+               .Select(q => new SelectListItem { Text = q.Parishes, Value = q.Id.ToString() });
+             model = new CustomerViewModel
+            {
+                Parishes = parishes
+            };
             return View(model);
+           
         }
 
         // POST: CustomersController/Edit/5

@@ -11,7 +11,7 @@ namespace ONS_Hardware_Web_Application.Models
     {
         
         public int Id { get; set; }
-        [Required]
+        //[Required]
 
         [Display(Name ="Invoice Date")] 
         public DateTime? InvoiceDate { get; set; }
@@ -20,17 +20,17 @@ namespace ONS_Hardware_Web_Application.Models
         public Decimal UnitCost { get; set; }
         [Display(Name = "Total Cost")]
         public Decimal TotalCost { get; set; }
-        [Required]
+        //[Required]
         public EmployeeViewModel Employee { get; set; }
         public string EmployeesId { get; set; }
         
-        public int Customer { get; set; }
+        public CustomerViewModel Customer { get; set; }
         public int CustomerId { get; set; }
       
         public ProductViewModel Product { get; set; }
         public int ProductId { get; set; }
 
         public IEnumerable<SelectListItem> Employees { get; set; } // Drop down list
-        public IEnumerable<SelectListItem> Products { get; set; }
+        public IEnumerable<SelectListItem> Products { get; set; } //Drop down list
     }
 }
