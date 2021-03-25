@@ -32,7 +32,7 @@
                 @Html.DisplayNameFor(model => model.EmailAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Parishes)
+                @Html.DisplayNameFor(model => model.Parish)
             </th>
             <th> Actions </th>
         </tr>
@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.EmailAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ParishId)
+                @Html.DisplayFor(modelItem => item.Parish.Parishes)
             </td>
             <td>
 

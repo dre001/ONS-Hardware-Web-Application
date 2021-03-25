@@ -38,7 +38,11 @@ namespace ONS_Hardware_Web_Application.Controllers
         {
 
             var suppliers = _repo.FindAll().ToList();
+            var parishes = _parishRepo.FindAll()
+                .Select(q => new SelectListItem { Text = q.Parishes, Value = q.Id.ToString() }); ;
             var model = _mapper.Map<List<Supplier>, List<SupplierViewModel>>(suppliers);
+            
+            
             //var SupplierModel = _mapper.Map<List<SupplierViewModel>>(suppliers);
             //var model1 = new DeliveryStatusViewModel
             return View(model);

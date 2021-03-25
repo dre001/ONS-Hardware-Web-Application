@@ -34,7 +34,7 @@
                 @Html.DisplayNameFor(model => model.ProductLocation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SupplierId)
+                @Html.DisplayNameFor(model => model.Supplier)
             </th>
             <th>Action</th>
         </tr>
@@ -65,7 +65,7 @@
                     @Html.DisplayFor(modelItem => item.ProductLocation)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SupplierId)
+                    @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
                 </td>
                 <td>
                     <a asp-action="Edit" class=" btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>

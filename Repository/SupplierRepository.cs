@@ -1,4 +1,5 @@
-﻿using ONS_Hardware_Web_Application.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using ONS_Hardware_Web_Application.Contracts;
 using ONS_Hardware_Web_Application.Data;
 using System;
 using System.Collections.Generic;
@@ -30,25 +31,31 @@ namespace ONS_Hardware_Web_Application.Repository
 
         public ICollection<Supplier> FindAll()
         {
-         return _db.Suppliers.ToList();
-            
-            //or
-         //var Suppliers = _db.Suppliers.ToList();
+            var Parish = _db.Suppliers
+                .Include (q => q.Parish)       //To associate ID numbers to there respective Names
+                .ToList();
+            return Parish;
 
-         //  return Suppliers;
+        // return _db.Suppliers.ToList();
+            //or
+            //var Suppliers = _db.Suppliers.ToList();
+            //  return Suppliers;
         }
 
         public Supplier FindById(int Id)
         {
-            var Supplier =_db.Suppliers.Find(Id);
-            return Supplier;
-            
-        }
+            var Parish =_db.Suppliers
+                .Include(q => q.Parish)
+                .FirstOrDefault( q => q.Id == Id); //To associate ID numbers to there respective Names
+            return Parish;
+           
+        }   
 
         public ICollection<Supplier> GetSupplierType(int Id)
         {
             throw new NotImplementedException();
         }
+
 
         public bool isExists(int Id)
         {

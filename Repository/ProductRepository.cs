@@ -1,4 +1,5 @@
-﻿using ONS_Hardware_Web_Application.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using ONS_Hardware_Web_Application.Contracts;
 using ONS_Hardware_Web_Application.Data;
 using System;
 using System.Collections.Generic;
@@ -31,16 +32,23 @@ namespace ONS_Hardware_Web_Application.Repository
 
         public ICollection<Product> FindAll()
         {
-            return _db.Products.ToList();
-             // Products = _db.Products.ToList();
-
-             //return view (Products);
+            var Supplier = _db.Products
+                .Include(q => q.Supplier)
+                .ToList();
+            return Supplier;
+            // return _db.Products.ToList();
+            // Products = _db.Products.ToList();
+            //return view (Products);
         }
 
-        public Product FindById(int Id)
+        public Product FindById(int id)
         {
-            var Product = _db.Products.Find(Id);
-            return Product;
+            var Supplier = _db.Products
+                .Include(q => q.Supplier)
+                .FirstOrDefault(q => q.Id == id);
+            return Supplier;
+            //var Product = _db.Products.Find(Id);
+            //return Product;
         }
 
         public bool isExists(int Id)

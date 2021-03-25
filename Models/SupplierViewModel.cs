@@ -15,7 +15,9 @@ namespace ONS_Hardware_Web_Application.Models
         [Required]
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
+        [Display(Name = "Address")]
         public string Address_1 { get; set; }
+        [Display(Name = "City")]
         public string Address_2 { get; set; }
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }

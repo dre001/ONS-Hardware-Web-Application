@@ -35,7 +35,7 @@
                 @Html.DisplayNameFor(model => model.EmailAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParishId)
+                @Html.DisplayNameFor(model => model.Parish)
             </th>
             <th>Action</th>
         </tr>
@@ -66,7 +66,7 @@
                     @Html.DisplayFor(modelItem => item.EmailAddress)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ParishId)
+                    @Html.DisplayFor(modelItem => item.Parish.Parishes)
                 </td>
                 <td>
                     <a asp-action="Edit" class=" btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
