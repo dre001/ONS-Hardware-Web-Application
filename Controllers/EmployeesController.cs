@@ -17,6 +17,7 @@ namespace ONS_Hardware_Web_Application.Controllers
         //private readonly Employee _repo;
         private readonly IMapper _mapper;
         private readonly UserManager<Employee> _userManager;
+        private readonly bool isSuccess;
         public EmployeesController(IMapper mapper,
             UserManager<Employee> userManager)
         {
@@ -96,38 +97,65 @@ namespace ONS_Hardware_Web_Application.Controllers
         // GET: EmployeeController/Edit/5
         public ActionResult Edit(string id)
         {
-            var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
-          
-           // var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
-            return View(employee);
+            //var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+
+            var employee = _userManager.FindByIdAsync(id).Result;
+            var model = _mapper.Map<EmployeeViewModel>(employee);
+
+            return View(model);
         }
 
         // POST: EmployeeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel model, string id)
+        public async Task<ActionResult> EditAsync(EmployeeViewModel model, string Id)
         {
+            
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View (model);
+                    return View(model);
                 }
-                var employee = _mapper.Map<Employee>(model);
-                var IsSuccess = _userManager.UpdateAsync(employee).Result;
+               
+               var employeeedit = _mapper.Map<EmployeeViewModel>(model);
+               var  user = await _userManager.FindByIdAsync(model.Id);
+                user.Title = model.Title;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Address_1 = model.Address_1;
+                user.Address_2 = model.Address_2;
+                //user.EmailAddress = model.EmailAddress;
+                user.JobTitle = model.JobTitle;
+                user.PhoneNumber = model.PhoneNumber;
+                
+              var result = await _userManager.UpdateAsync(user);
+
+                //if (!isSuccess)
+                //{
+                //    ModelState.AddModelError("", "Error while saving");
+                //    return View(model);
+                //}
+                return RedirectToAction(nameof(Details), new { id = model.Id });
+
+
+                //var employee = _mapper.Map<Employee>(model);
+                //var IsSuccess = _userManager.UpdateAsync(employee).Result; //<<<<<<IF ERROR RESTORE THIS<<<<<
+
+
 
                 //var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
                 // var employee = _mapper.Map<EmployeeViewModel>(model);
                 //var IsSuccess = _mapper.Map<EmployeeViewModel>(_userManager.Update (employee));
-               //var IsSuccess = _mapper.Map<EmployeeViewModel>(_userManager.UpdateAsync(employee).Result);
+                //var IsSuccess = _mapper.Map<EmployeeViewModel>(_userManager.UpdateAsync(employee).Result);
                 //if (!IsSuccess)
-                {
-                    ModelState.AddModelError("", "Sorry, Something went wrong...");
-                    return View(model);
-                }
-                return RedirectToAction(nameof(Index));
+                //{
+                //    ModelState.AddModelError("", "Sorry, Something went wrong...");
+                //    return View(model);
+                //}
+                //return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 ModelState.AddModelError("", "Sorry, Something went wrong...");
                 return View(model);

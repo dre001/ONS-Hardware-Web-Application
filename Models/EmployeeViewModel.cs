@@ -27,4 +27,21 @@ namespace ONS_Hardware_Web_Application.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
+
+    public class EditEmployeeViewModel
+    {
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+        [Display(Name = "Address")]
+        public string Address_1 { get; set; }
+        [Display(Name = "City")]
+        public string Address_2 { get; set; }
+        [Display(Name = "Email Address")]
+        public string EmailAddress { get; set; }
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+    }
 }

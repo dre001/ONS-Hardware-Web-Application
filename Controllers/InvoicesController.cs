@@ -68,15 +68,36 @@ namespace ONS_Hardware_Web_Application.Controllers
         {
 
 
+            //    var user = _userManager.FindByIdAsync(id);
+            //    var Employee = _mapper.Map<List<EmployeeViewModel>>(user)
+            //        .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+            //    InvoiceViewModel model = new InvoiceViewModel
+            //    {
+            //        Employees = Employee  //.Select(q => new SelectListItem { Text = q.Id, Value = q.Id.ToString() })
+            //    };
+            //return View(model);
+
+            //var employees = _userManager.GetUsersInRoleAsync("Employee")
+            //    .Result
+
+            //    (q => new SelectListItem { Text = q.Employee, Value = q.Id.ToString() });
+            //var model = _mapper.Map<List<EmployeeViewModel>>(employees); //new
+
+            //        return View(model); //new
+
+
+
+
+
             var product = _productRepo.FindAll()
-               .Select(q => new SelectListItem { Text = q.ProductType, Value = q.Id.ToString() });
+                   .Select(q => new SelectListItem { Text = q.ProductType, Value = q.Id.ToString() });
             var model = new InvoiceViewModel
 
             {
                 Products = product
             };
             return View(model);
-            //return View(); 
+
         }
 
         // POST: InvoiceController/Create

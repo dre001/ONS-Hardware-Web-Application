@@ -20,6 +20,7 @@ namespace ONS_Hardware_Web_Application.Mappings
             CreateMap<Product, ProductViewModel>().ReverseMap();
             CreateMap<Parish, ParishViewModel>().ReverseMap();
             CreateMap<Employee, EmployeeViewModel>().ReverseMap(); //Last one that was added
+           // CreateMap<Employee, EditEmployeeViewModel>().ReverseMap(); //Last one that was added
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ONS_Hardware_Web_Application.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using ONS_Hardware_Web_Application.Contracts;
 using ONS_Hardware_Web_Application.Data;
 using System;
 using System.Collections.Generic;
@@ -32,13 +33,21 @@ namespace ONS_Hardware_Web_Application.Repository
        
         public ICollection<Invoice> FindAll()
         {
-            return _db.Invoices.ToList();
+            var employee = _db.Invoices
+               .Include(q => q.Employee)       //To associate ID numbers to there respective Names
+               .ToList();
+            return employee;
+            // return _db.Invoices.ToList();
         }
 
         public Invoice FindById(int Id)
         {
-            var Invoice = _db.Invoices.Find(Id);
-            return Invoice;
+            var employee = _db.Invoices
+                .Include(q => q.Employee)
+                .FirstOrDefault(q => q.Id == Id); //To associate ID numbers to there respective Names
+            return employee;
+            //var Invoice = _db.Invoices.Find(Id);
+            //return Invoice;
         }
 
         public bool isExists(int Id)
