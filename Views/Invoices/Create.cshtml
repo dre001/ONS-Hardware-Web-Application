@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
@@ -9,19 +10,19 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-        </div>*@
-            @*<div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
+        <div class="form-group">
             <label asp-for="InvoiceDate" class="control-label"></label>
             <input asp-for="InvoiceDate" class="form-control" />
             <span asp-validation-for="InvoiceDate" class="text-danger"></span>
-        </div>*@
+        </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
                 <input asp-for="Quantity" class="form-control" />
@@ -37,35 +38,26 @@
                 <input asp-for="TotalCost" class="form-control" />
                 <span asp-validation-for="TotalCost" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Employees" class="control-label"></label>
-                @*<input asp-for="EmployeesId" class="form-control" />*@
-                <select asp-for="EmployeesId" asp-items="Model.Employees" class="form-control"></select>
-                <span asp-validation-for="Employees" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Customer" class="control-label"></label>
-                <input asp-for="Customer" class="form-control" />
-                <span asp-validation-for="Customer" class="text-danger"></span>
-            </div>
             @*<div class="form-group">
-            <label asp-for="CustomerId" class="control-label"></label>
-            <input asp-for="CustomerId" class="form-control" />
+                <label asp-for="EmployeesId" class="control-label"></label>
+                <input asp-for="EmployeesId" class="form-control" />
+                <span asp-validation-for="EmployeesId" class="text-danger"></span>
+            </div>*@
+        <div class="form-group">
+            <label asp-for="Customer" class="control-label"></label>
+            @*<input asp-for="CustomerId" class="form-control" />*@
+            <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control"></select>
             <span asp-validation-for="CustomerId" class="text-danger"></span>
-        </div>*@
+        </div>
         <div class="form-group">
             <label asp-for="Product" class="control-label"></label>
             @*<input asp-for="ProductId" class="form-control" />*@
-            <select asp-for="Product" asp-items="Model.Products" class="form-control"></select>
-            <span asp-validation-for="Product" class="text-danger"></span>
-        </div>
-            @*<div class="form-group">
-            <label asp-for="ProductId" class="control-label"></label>
-            <input asp-for="ProductId" class="form-control" />
+            <select asp-for="ProductId" asp-items="Model.Products" class="form-control"></select>
             <span asp-validation-for="ProductId" class="text-danger"></span>
-        </div>*@
+        </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                @*<input type="submit" value="Create" class="btn btn-primary" />*@
             </div>
         </form>
     </div>
@@ -73,7 +65,7 @@
 
 <div>
     <a asp-action="Index" type="button" class="btn btn-outline-dark"></>Back to List</a>
-    
+    @*<a asp-action="Index">Back to List</a>*@
 </div>
 
 @section Scripts {

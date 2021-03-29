@@ -27,17 +27,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.TotalCost)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.EmployeesId)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.CustomerId)
-            </th>
+            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.ProductId)
+                @Html.DisplayNameFor(model => model.Product)
             </th>
             <th>Action</th>
         </tr>
@@ -61,17 +61,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TotalCost)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.EmployeesId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer)
-                </td>
-                <td>
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.FirstName)  @Html.DisplayFor(modelItem => item.Customer.LastName)
+            </td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.CustomerId)
-                </td>
+                </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
+                    @Html.DisplayFor(modelItem => item.Product.ProductCategory)
                 </td>
                 <td>
                     <a asp-action="Edit" class=" btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>

@@ -22,25 +22,39 @@ namespace ONS_Hardware_Web_Application.Controllers
         private readonly IInvoiceRepository _repo;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepo; //new
+        private readonly ICustomerRepository _customerRepo; //new
         private readonly UserManager<Employee> _userManager; //new
         public InvoicesController(IInvoiceRepository repo, 
             IMapper mapper,
               UserManager<Employee> userManager, //new
-              IProductRepository productRepo) //new
+              IProductRepository productRepo, //new
+              ICustomerRepository customerRepo)   //new
         {
             _repo = repo;
             _mapper = mapper;
             _userManager = userManager; //new
             _productRepo = productRepo; //new
+            _customerRepo = customerRepo; //new
         }
         // GET: InvoiceController
         public ActionResult Index()
         {
             var invoices = _repo.FindAll().ToList();
+            var products = _productRepo.FindAll()
+              .Select(q => new SelectListItem { Text = q.ProductCategory, Value = q.Id.ToString() });
+            var customers = _customerRepo.FindAll()
+                .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString()});
+            
+            //var customers = _customerRepo.FindAll()
+            //   .Select(q => new SelectListItem { Text = q.FirstName , Value = q.Id.ToString() });
+           
             var model = _mapper.Map<List<Invoice>, List<InvoiceViewModel>>(invoices);
+
+            
             return View(model);
         }
 
+        
 
 
         // GET: InvoiceController/Details/5
@@ -86,18 +100,19 @@ namespace ONS_Hardware_Web_Application.Controllers
             //        return View(model); //new
 
 
-
-
-
-            var product = _productRepo.FindAll()
-                   .Select(q => new SelectListItem { Text = q.ProductType, Value = q.Id.ToString() });
+            var products = _productRepo.FindAll()
+                   .Select(q => new SelectListItem { Text = q.ProductCategory, Value = q.Id.ToString() });
+            var customer = _customerRepo.FindAll()
+                 .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
             var model = new InvoiceViewModel
 
             {
-                Products = product
+                Products = products,
+                Customers = customer
             };
-            return View(model);
 
+            return View(model);
+             
         }
 
         // POST: InvoiceController/Create
@@ -105,15 +120,18 @@ namespace ONS_Hardware_Web_Application.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InvoiceViewModel model)
         {
+            //double TotalCost = (double)(model.TotalCost = (model.UnitCost) * (model.Quantity));
             try
             {
+
+
                 if (!ModelState.IsValid)
                 {
                     return View(model);
                 }
 
                 var invoice = _mapper.Map<Invoice>(model);
-                invoice.InvoiceDate = DateTime.Now; // To inject you own date picker
+
 
                 var IsSuccess = _repo.Create(invoice);
                 if (!IsSuccess)
@@ -122,6 +140,28 @@ namespace ONS_Hardware_Web_Application.Controllers
                     return View(model);
                 }
 
+                invoice = _mapper.Map<Invoice>(model);
+                invoice.InvoiceDate = DateTime.Now; // To inject your own date picker
+                
+                var employee = _userManager.GetUserAsync(User).Result;
+
+                double Total = (double)(model.TotalCost = (model.UnitCost) * (model.Quantity));
+              
+               
+                
+
+                var InvoiceModel = new InvoiceViewModel
+                {
+                    EmployeesId = employee.Id,
+                    InvoiceDate =  DateTime.Now,
+                    Quantity = model.Quantity,
+                    UnitCost = model.UnitCost,
+                    TotalCost = model.TotalCost,
+                    //  Products = model.Products,
+                    CustomerId = model.CustomerId
+                };
+
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
@@ -129,6 +169,70 @@ namespace ONS_Hardware_Web_Application.Controllers
                 ModelState.AddModelError("", "Sorry, Something went wrong...");
                 return View();
             }
+
+            //    //    var product = _productRepo.FindAll()
+            //    //       .Select(q => new SelectListItem { Text = q.ProductType, Value = q.Id.ToString() });
+            //    //   model = new InvoiceViewModel
+
+            //    //    {
+            //    //        Products = product
+            //    //    };
+
+            //    if (!ModelState.IsValid)
+            //    {
+            //        return View(model);
+            //    }
+
+            //    var invoice = _mapper.Map<Invoice>(model);
+            //   // invoice.InvoiceDate = DateTime.Now; // To inject your own date picker
+
+            //    var IsSuccess = _repo.Create(invoice);
+
+            //    if (!IsSuccess)
+            //    {
+            //        ModelState.AddModelError("", "Sorry, Something went wrong...");
+            //        return View(model);
+            //    }
+
+
+            //    //if (DateTime.Compare((DateTime)model.InvoiceDate, DateTime.Now) >= 1)
+            //    //{
+            //    //    ModelState.AddModelError("", "Sorry, Date of invoice cannot be beyond current date");  // Check this Code
+            //    //    return View();
+            //    //}
+
+
+            //    var employee = _userManager.GetUserAsync(User).Result;
+
+            //   // double TotalCost = (double) (model.TotalCost = (model.UnitCost) * (model.Quantity));
+            //    // var products =  _productRepo.
+
+            //    var InvoiceModel = new InvoiceViewModel
+            //    {
+            //        EmployeesId = employee.Id,
+            //        InvoiceDate = DateTime.Now,
+            //        Quantity = model.Quantity,
+            //        UnitCost = model.UnitCost,
+            //        TotalCost = model.TotalCost,
+            //      //  Products = model.Products,
+            //        CustomerId = model.CustomerId
+            //    };
+
+            //    var Invoice = _mapper.Map<Invoice>(InvoiceModel);
+            //    var isSuccess = _repo.Create(invoice);
+
+            //    if (!isSuccess)
+            //    {
+            //        ModelState.AddModelError("", "Sorry, Something went wrong...");
+            //        return View(model);
+            //    }
+            //    return RedirectToAction(nameof(Index),"Home");
+            //}
+            //catch (Exception e)
+            //{
+            //    ModelState.AddModelError("", "Sorry, Something went wrong updating invoice Record");
+            //    return View();
+            //}
         }
 
 
@@ -143,15 +247,19 @@ namespace ONS_Hardware_Web_Application.Controllers
             var model = _mapper.Map<InvoiceViewModel>(invoice);
 
 
-            var product = _productRepo.FindAll()
-              .Select(q => new SelectListItem { Text = q.ProductType, Value = q.Id.ToString() });
-             model = new InvoiceViewModel
+            var products = _productRepo.FindAll()
+                  .Select(q => new SelectListItem { Text = q.ProductCategory, Value = q.Id.ToString() });
+            var customer = _customerRepo.FindAll()
+                 .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+                model = new InvoiceViewModel
 
             {
-                Products = product
+                Products = products,
+                Customers = customer
             };
+
             return View(model);
-           
+
         }
 
         // POST: InvoiceController/Edit/5
@@ -172,9 +280,13 @@ namespace ONS_Hardware_Web_Application.Controllers
                     ModelState.AddModelError("", "Sorry, Something went wrong...");
                     return View(model);
                 }
+
+
+
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 ModelState.AddModelError("", "Sorry, Something went wrong...");
                 return View(model);

@@ -30,22 +30,42 @@ namespace ONS_Hardware_Web_Application.Repository
             return Save();
         }
 
-       
+
         public ICollection<Invoice> FindAll()
         {
-            var employee = _db.Invoices
-               .Include(q => q.Employee)       //To associate ID numbers to there respective Names
+            var product = _db.Invoices
+               .Include(q => q.Product)       //To associate ID numbers to there respective Names
                .ToList();
-            return employee;
-            // return _db.Invoices.ToList();
+
+            var customer = _db.Invoices
+                  .Include(q => q.Customer)       //To associate ID numbers to there respective Names
+                  .ToList();
+            
+            var model = product;
+                model = customer;
+           
+            return model;
+
         }
+
 
         public Invoice FindById(int Id)
         {
-            var employee = _db.Invoices
-                .Include(q => q.Employee)
+            var product = _db.Invoices
+                .Include(q => q.Product)
                 .FirstOrDefault(q => q.Id == Id); //To associate ID numbers to there respective Names
-            return employee;
+            //return product;
+            
+            var customer = _db.Invoices
+                .Include(q => q.Customer)
+                .FirstOrDefault(q => q.Id == Id); //To associate ID numbers to there respective Names
+                                                  // return product;
+
+            var model = product;
+                model = customer;
+
+            return model;
+
             //var Invoice = _db.Invoices.Find(Id);
             //return Invoice;
         }
