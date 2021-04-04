@@ -28,11 +28,14 @@ namespace ONS_Hardware_Web_Application.Models
         public bool? Approved { get; set; } //last thing added
         public IEnumerable<SelectListItem> Parishes { get; set; } //Drop Down list for Parishes
      }
-    //public class DeliveryStatusViewModel
-    //{
-    //    public int TotalDelivery { get; set; }
-    //    public int PendingDelivery { get; set; }
-    //    public int NotDelivered { get; set; }
-        
-    //}
+    public class DeliveryStatusViewModel
+    {
+        public int TotalDelivery { get; set; }
+        public int Delivered { get; set; }
+        public int PendingDelivery { get; set; }
+        public int NotDelivered { get; set; }
+        //public bool? Approved { get; set; } //last thing added
+        public IEnumerable<SelectListItem> Products { get; set; }
+
+    }
 }

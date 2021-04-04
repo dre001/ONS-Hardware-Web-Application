@@ -41,11 +41,29 @@ namespace ONS_Hardware_Web_Application.Controllers
             var parishes = _parishRepo.FindAll()
                 .Select(q => new SelectListItem { Text = q.Parishes, Value = q.Id.ToString() }); ;
             var model = _mapper.Map<List<Supplier>, List<SupplierViewModel>>(suppliers);
-            
-            
+
+
+             return View(model);
+
+
+           // var DeliveryStatus = _repo.FindAll();
+            //var DeliveryModel = _mapper.Map<List<SupplierViewModel>>(DeliveryStatus);
+            //var model = new DeliveryStatusViewModel
+          
+            //{
+          
+            //     TotalDelivery = DeliveryModel.Count,
+            //     Delivered = DeliveryModel.Count(q => q.Approved == true),
+            //     PendingDelivery = DeliveryModel.Count(q => q.Approved == null),
+            //     NotDelivered = DeliveryModel.Count(q => q.Approved == false)
+            //     //Products = DeliveryModel 
+                  
+            //};
+
+         //   return View(model);
             //var SupplierModel = _mapper.Map<List<SupplierViewModel>>(suppliers);
             //var model1 = new DeliveryStatusViewModel
-            return View(model);
+            // return View(model);
             //{
             //    TotalDelivery = SupplierModel.Count,
             //    PendingDelivery = SupplierModel.Count(q => q.Approved == null),
