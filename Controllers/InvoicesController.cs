@@ -24,6 +24,7 @@ namespace ONS_Hardware_Web_Application.Controllers
         private readonly IProductRepository _productRepo; //new
         private readonly ICustomerRepository _customerRepo; //new
         private readonly UserManager<Employee> _userManager; //new
+        
         public InvoicesController(IInvoiceRepository repo, 
             IMapper mapper,
               UserManager<Employee> userManager, //new
@@ -60,6 +61,10 @@ namespace ONS_Hardware_Web_Application.Controllers
         // GET: InvoiceController/Details/5
         public ActionResult Details(int id)
         {
+            //var user = _userManager.GetUsersInRoleAsync("user").Result;   // { Get; }
+            //var Employee = _mapper.Map<List<EmployeeViewModel>>(user).Select
+            //    (q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+            // var model = _mapper.Map<List<EmployeeViewModel>>(user);
 
             if (!_repo.isExists(id))
             {
@@ -67,6 +72,7 @@ namespace ONS_Hardware_Web_Application.Controllers
             }
             var invoice = _repo.FindById(id);
             var model = _mapper.Map<InvoiceViewModel>(invoice);
+            model.Employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(model.EmployeesId).Result);
             return View(model);
         }
 
@@ -82,28 +88,41 @@ namespace ONS_Hardware_Web_Application.Controllers
         {
 
 
-            //    var user = _userManager.FindByIdAsync(id);
-            //    var Employee = _mapper.Map<List<EmployeeViewModel>>(user)
-            //        .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
-            //    InvoiceViewModel model = new InvoiceViewModel
-            //    {
-            //        Employees = Employee  //.Select(q => new SelectListItem { Text = q.Id, Value = q.Id.ToString() })
-            //    };
+            //var user = _userManager.FindByIdAsync(id);
+            //var Employee = _mapper.Map<List<EmployeeViewModel>>(user)
+            //    .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+            //InvoiceViewModel model = new InvoiceViewModel
+            //{
+            //    Employees = Employee  //.Select(q => new SelectListItem { Text = q.Id, Value = q.Id.ToString() })
+            //};
             //return View(model);
 
-            //var employees = _userManager.GetUsersInRoleAsync("Employee")
-            //    .Result
 
-            //    (q => new SelectListItem { Text = q.Employee, Value = q.Id.ToString() });
-            //var model = _mapper.Map<List<EmployeeViewModel>>(employees); //new
 
-            //        return View(model); //new
+
+            //var employees = _usermanager.getusersinroleasync("employee")
+            // .result
+
+            //    (q => new selectlistitem { text = q.employee, value = q.id.tostring() });
+            //var model = _mapper.map<list<employeeviewmodel>>(employees); //new
+
+            // return view(model); //new
+
+
+
+
+
+            var user = _userManager.GetUsersInRoleAsync("user").Result;   // { Get; }
+            var Employee = _mapper.Map<List<EmployeeViewModel>>(user).Select
+                (q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+           // var model = _mapper.Map<List<EmployeeViewModel>>(user);
 
 
             var products = _productRepo.FindAll()
                    .Select(q => new SelectListItem { Text = q.ProductCategory, Value = q.Id.ToString() });
             var customer = _customerRepo.FindAll()
                  .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+          
             var model = new InvoiceViewModel
 
             {
@@ -111,7 +130,7 @@ namespace ONS_Hardware_Web_Application.Controllers
                 Customers = customer
             };
 
-            return View(model);
+            return View(model);  
              
         }
 
@@ -130,8 +149,15 @@ namespace ONS_Hardware_Web_Application.Controllers
                     return View(model);
                 }
 
+                model.TotalCost = model.UnitCost * model.Quantity;
+                var employee = _userManager.GetUserAsync(User).Result;
+                model.EmployeesId = employee.Id;
+                model.InvoiceDate = DateTime.Now; // To inject your own date picker
+
                 var invoice = _mapper.Map<Invoice>(model);
 
+                
+            
 
                 var IsSuccess = _repo.Create(invoice);
                 if (!IsSuccess)
@@ -140,14 +166,7 @@ namespace ONS_Hardware_Web_Application.Controllers
                     return View(model);
                 }
 
-                invoice = _mapper.Map<Invoice>(model);
-                invoice.InvoiceDate = DateTime.Now; // To inject your own date picker
                 
-                var employee = _userManager.GetUserAsync(User).Result;
-
-                double Total = (double)(model.TotalCost = (model.UnitCost) * (model.Quantity));
-              
-               
                 
 
                 var InvoiceModel = new InvoiceViewModel
