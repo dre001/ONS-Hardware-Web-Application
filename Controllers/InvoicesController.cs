@@ -24,7 +24,8 @@ namespace ONS_Hardware_Web_Application.Controllers
         private readonly IProductRepository _productRepo; //new
         private readonly ICustomerRepository _customerRepo; //new
         private readonly UserManager<Employee> _userManager; //new
-        
+        //public DateTime  InvoiceDate { get; private set;}
+        //public DateTime?  Today { get; private set;}
         public InvoicesController(IInvoiceRepository repo, 
             IMapper mapper,
               UserManager<Employee> userManager, //new
@@ -153,6 +154,19 @@ namespace ONS_Hardware_Web_Application.Controllers
                 var employee = _userManager.GetUserAsync(User).Result;
                 model.EmployeesId = employee.Id;
                 model.InvoiceDate = DateTime.Now; // To inject your own date picker
+                
+                
+                //model.InvoiceDate = new DateTime();  // To inject your own date picker
+                //                                     // var currentdate = new DateTime();
+                //var datetime = InvoiceDate.GetDateTimeFormats() + "/"
+                //            + (InvoiceDate.Month + 1) + "/"
+                //            + InvoiceDate.Year + " @ "
+                //            + InvoiceDate.Minute + ":"
+                //            + InvoiceDate.Second;
+
+                //InvoiceDate.;
+
+
 
                 var invoice = _mapper.Map<Invoice>(model);
 
@@ -265,17 +279,30 @@ namespace ONS_Hardware_Web_Application.Controllers
             var invoice = _repo.FindById(id);
             var model = _mapper.Map<InvoiceViewModel>(invoice);
 
-
             var products = _productRepo.FindAll()
                   .Select(q => new SelectListItem { Text = q.ProductCategory, Value = q.Id.ToString() });
             var customer = _customerRepo.FindAll()
                  .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
-                model = new InvoiceViewModel
+            model = new InvoiceViewModel
 
             {
                 Products = products,
                 Customers = customer
             };
+
+            //var invoice = _repo.FindById(id);
+            //var model = _mapper.Map<InvoiceViewModel>(invoice);
+
+            //var products = _productRepo.FindAll()
+            //      .Select(q => new SelectListItem { Text = q.ProductCategory, Value = q.Id.ToString() });
+            //var customer = _customerRepo.FindAll()
+            //     .Select(q => new SelectListItem { Text = q.FirstName, Value = q.Id.ToString() });
+            //model = new InvoiceViewModel
+
+            //{
+            //    Products = products,
+            //    Customers = customer
+            //};
 
             return View(model);
 
@@ -294,6 +321,17 @@ namespace ONS_Hardware_Web_Application.Controllers
                 }
                 var invoice = _mapper.Map<Invoice>(model);
                 var IsSuccess = _repo.Update(invoice);
+
+
+
+                model.TotalCost = model.UnitCost * model.Quantity;
+                var employee = _userManager.GetUserAsync(User).Result;
+                model.EmployeesId = employee.Id;
+                model.InvoiceDate = DateTime.Now; // To inject your own date picker
+
+
+
+
                 if (!IsSuccess)
                 {
                     ModelState.AddModelError("", "Sorry, Something went wrong...");
@@ -315,6 +353,7 @@ namespace ONS_Hardware_Web_Application.Controllers
 
 
         // GET: InvoiceController/Delete/5
+        
         public ActionResult Delete(int id)
         {
             var invoice = _repo.FindById(id);
@@ -333,6 +372,9 @@ namespace ONS_Hardware_Web_Application.Controllers
         // POST: InvoiceController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+       
+      
+
         public ActionResult Delete(int id, InvoiceViewModel model)
         {
             try
